@@ -13,11 +13,11 @@ namespace ConsultoriaLaSante.Services.Interfaces
 
         InvoiceDto GetInvoice(string formNumber);
 
-        IEnumerable<InvoiceDto> search(int take, string query);
+        bool Update(InvoiceDto dto);
 
+        bool removeOrder(string formNumber);
 
-
-
+        bool createInvoice(InvoiceDto model);
        
     }
 }

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultoriaLaSante.Services
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultoriaLaSante.Dtos", "ConsultoriaLaSante.Dtos\ConsultoriaLaSante.Dtos.csproj", "{8D03DB4D-AAEB-4183-AF85-CCCE83159FF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsultoriaLaSante.Api", "ConsultoriaLaSante.Api\ConsultoriaLaSante.Api.csproj", "{C1DAFD65-18DA-4506-BB6B-512BE16AC549}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{8D03DB4D-AAEB-4183-AF85-CCCE83159FF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D03DB4D-AAEB-4183-AF85-CCCE83159FF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D03DB4D-AAEB-4183-AF85-CCCE83159FF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DAFD65-18DA-4506-BB6B-512BE16AC549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DAFD65-18DA-4506-BB6B-512BE16AC549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DAFD65-18DA-4506-BB6B-512BE16AC549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DAFD65-18DA-4506-BB6B-512BE16AC549}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{95B5F669-C1C3-468D-9077-9544F57031F3} = {944311C2-EC0F-413A-86EA-A5BB876544E5}
 		{7785CD1B-8FD7-487B-9BF2-0DF5911A65D8} = {944311C2-EC0F-413A-86EA-A5BB876544E5}
 		{8D03DB4D-AAEB-4183-AF85-CCCE83159FF2} = {944311C2-EC0F-413A-86EA-A5BB876544E5}
+		{C1DAFD65-18DA-4506-BB6B-512BE16AC549} = {83B33F0E-02F0-48EF-A669-2F215867FF5F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8407607E-84E8-49C3-BA81-2A2067B51724}

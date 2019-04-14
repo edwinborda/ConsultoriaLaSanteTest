@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -15,31 +16,40 @@ namespace ConsultoriaLaSante.Entities
         }
         internal Invoice()   {}
 
-        public Invoice(string orderNumber, string billNumber, int nit, string nameSupplier)
+        public Invoice(string orderNumber, string billNumber, string nit, string nameSupplier, string formNumber = null)
         {
-            this.FormNumber = Guid.NewGuid();
-            this.OrderNumber = orderNumber;
-            this.BillNumber = billNumber;
-            this.OrderState = State.open;
-            this.Supplier = new Supplier()
+            if (string.IsNullOrEmpty(formNumber))
+                FormNumber = Guid.NewGuid();
+            else
+                FormNumber = new Guid(formNumber);
+            PurchaseNumber = orderNumber;
+            BillNumber = billNumber;
+            OrderState = State.open;
+            Supplier = new Supplier()
             {
                  Nit = nit,
                  Name = nameSupplier
             };
         }
 
+        [Key]
         public Guid FormNumber { get; private set; }
 
-        public string OrderNumber { get; private set; }
+        public string PurchaseNumber { get; private set; }
 
         public string BillNumber { get; private set; }
 
         public int Supplier_id { get; private set; }
 
+        public State OrderState { get; private set; }
+
         [ForeignKey("Supplier_id")]
         public virtual Supplier Supplier { get; private set; }
 
-        public State OrderState { get; private set; }
+        public void changeStatus(State status)
+        {
+            OrderState = status;
+        }
 
     }
 

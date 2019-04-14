@@ -35,10 +35,5 @@ namespace ConsultoriaLaSante.DataAccess.Repositories
         {
             ctx.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
-
-        public IEnumerable<TEntity> search(Expression<Func<TEntity, bool>> query )
-        {
-           return ctx.Set<TEntity>().Where(query).ToList();
-        }
     }
 }
