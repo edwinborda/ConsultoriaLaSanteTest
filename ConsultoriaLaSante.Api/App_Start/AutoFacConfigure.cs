@@ -1,10 +1,9 @@
 ﻿using Autofac;
 using Autofac.Integration.WebApi;
+using ConsultoriaLaSante.Services;
+using ConsultoriaLaSante.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Http;
 
 namespace ConsultoriaLaSante.Api.App_Start
@@ -13,16 +12,15 @@ namespace ConsultoriaLaSante.Api.App_Start
     {
         public static void Run()
         {
-            var config = GlobalConfiguration.Configuration;
             var builder = new ContainerBuilder();
-
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
-                    .Where(t => t.Name.EndsWith("Service"))
-                    .AsImplementedInterfaces()
-                    .InstancePerRequest();
-
+                .Where(t => t.Name.EndsWith("Service"))
+                .AsImplementedInterfaces()
+                .InstancePerRequest();
+            
             var container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(container);
         }
     }
 }

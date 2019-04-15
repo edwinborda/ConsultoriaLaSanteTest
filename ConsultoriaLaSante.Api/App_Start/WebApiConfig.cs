@@ -24,14 +24,16 @@ namespace ConsultoriaLaSante.Api.App_Start
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            config.MapODataServiceRoute("odata", null, GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+            config.MapODataServiceRoute("odata", "odata", GetEdmModel(), new DefaultODataBatchHandler(GlobalConfiguration.DefaultServer));
+            config.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
             config.EnsureInitialized();
         }
         private static IEdmModel GetEdmModel()
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-            builder.ContainerName = "DefaultContainer";
-            builder.EntitySet<InvoiceModel>("Inovice");
+            builder.Namespace = "Odata";
+            builder.ContainerName = "ConsultoriaLaSanteContainer";
+            builder.EntitySet<InvoiceModel>("InvoiceOData");
             var edmModel = builder.GetEdmModel();
             return edmModel;
         }

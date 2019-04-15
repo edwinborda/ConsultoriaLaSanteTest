@@ -1,4 +1,5 @@
 ﻿using ConsultoriaLaSante.Api.Models;
+using ConsultoriaLaSante.Dtos;
 using ConsultoriaLaSante.Services.Interfaces;
 using Microsoft.AspNet.OData;
 using System;
@@ -16,8 +17,9 @@ namespace ConsultoriaLaSante.Api.Controllers.OData
     /// <summary>
     /// Endopoint OData invoice
     /// </summary>
-    [EnableQuery]
-    public class InvoideODataController : ODataController
+    
+    
+    public class InvoiceODataController : ODataController
     {
         private readonly IInvoiceService invoiceService;
 
@@ -25,7 +27,7 @@ namespace ConsultoriaLaSante.Api.Controllers.OData
         /// contructor
         /// </summary>
         /// <param name="invoiceService"></param>
-        public InvoideODataController(IInvoiceService invoiceService)
+        public InvoiceODataController(IInvoiceService invoiceService)
         {
             this.invoiceService = invoiceService;
         }
@@ -33,11 +35,26 @@ namespace ConsultoriaLaSante.Api.Controllers.OData
         /// get queryable invoices
         /// </summary>
         /// <returns></returns>
-        /// 
+
+        [EnableQuery]
         [ResponseType(typeof(InvoiceModel))]
-        public IHttpActionResult get()
+        [HttpGet]
+        public IQueryable<InvoiceModel> get()
         {
-            return Ok(invoiceService.getAll().AsQueryable());
+            var list = invoiceService.getAll().Select(toInvoiceModel);
+            return list.AsQueryable();
+        }
+
+        private InvoiceModel toInvoiceModel(InvoiceDto dto)
+        {
+            return new InvoiceModel
+            {
+                FormData = dto.FormNumber,
+                BillOrder = dto.BillNumber,
+                PurchaseOrder = dto.PurchaseNumber,
+                Name = dto.Name,
+                Nit = dto.nit
+            };
         }
     }
 }

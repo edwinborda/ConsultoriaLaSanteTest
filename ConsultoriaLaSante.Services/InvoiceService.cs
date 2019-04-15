@@ -32,7 +32,7 @@ namespace ConsultoriaLaSante.Services
 
         public IEnumerable<InvoiceDto> getAll()
         {
-            return invoiceRepository.getAll().Select(toInvoiceDto);
+            return invoiceRepository.getAll("Supplier").Select(toInvoiceDto);
         }
 
         public InvoiceDto GetInvoice(string formNumber)

@@ -16,9 +16,12 @@ namespace ConsultoriaLaSante.DataAccess.Repositories
             this.ctx = ctx;
         }
 
-        public IEnumerable<TEntity> getAll()
+        public IEnumerable<TEntity> getAll(string include = null)
         {
-            return ctx.Set<TEntity>().ToList();
+            if(string.IsNullOrEmpty(include))
+                return ctx.Set<TEntity>().ToList();
+            else
+                return ctx.Set<TEntity>().Include(include).ToList();
         }
 
         public TEntity GetEntity(string id)
@@ -35,5 +38,6 @@ namespace ConsultoriaLaSante.DataAccess.Repositories
         {
             ctx.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
+
     }
 }
