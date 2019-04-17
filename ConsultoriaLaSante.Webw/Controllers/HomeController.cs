@@ -1,5 +1,6 @@
 ﻿using ConsultoriaLaSante.Web.Models;
 using ConsultoriaLaSante.Web.Proxies;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -47,6 +48,15 @@ namespace ConsultoriaLaSante.Web.Controllers
             var result = invoiceProxy.getOData();
 
             return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult ListOdata(OdataModel model)
+        {
+            var invoiceProxy = new InvoicesProxy(baseUrl);
+            var result = invoiceProxy.getOData(model);
+
+            return Json(result);
         }
 
     }

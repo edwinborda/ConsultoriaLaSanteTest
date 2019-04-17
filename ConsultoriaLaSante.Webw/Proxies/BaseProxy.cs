@@ -30,19 +30,23 @@ namespace ConsultoriaLaSante.Web.Proxies
             return JsonConvert.DeserializeObject<IEnumerable<TModel>>(response.Content);
         }
 
-        public IEnumerable<TModel> getOData(Dictionary<string, Dictionary<string, string>> parameters = null)
+        public IEnumerable<TModel> getOData(OdataModel parameters = null)
         {
             RestRequest request = new RestRequest(oDataUrl);
             if (parameters != null)
             {
-                if (parameters.FirstOrDefault(it => it.Key == "id").Value.Any())
-                    request = new RestRequest($"{oDataUrl}({parameters.FirstOrDefault(it => it.Key == "id").Value["Id"]})");
-                else if (parameters.FirstOrDefault(it => it.Key == "filter").Value.Any())
+                if (!string.IsNullOrEmpty(parameters.id))
+                    request = new RestRequest($"{oDataUrl}({parameters.id})");
+                else if (parameters.filters.Any())
                 {
-                    var dictionary = parameters.FirstOrDefault(it => it.Key == "filter").Value;
-                    var filter = dictionary.Select(x => $"{x.Key} eq {x.Value}");
-
-                    request = new RestRequest($"{oDataUrl}?$filter={string.Join("and", filter) }");
+                    
+                    var filter = parameters.filters.Select(x => {
+                        if (x.oper == "contains")
+                            return $"contains({x.field},'{x.value}')";
+                        else
+                            return $"{x.field} {x.oper} {x.value}";
+                    });
+                    request = new RestRequest($"{oDataUrl}?$filter={string.Join(" and ", filter)}");
                 }
             }
             IRestResponse response = _restClient.Execute(request);
