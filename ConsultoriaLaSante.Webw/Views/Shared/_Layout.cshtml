@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
     @RenderSection("Styles", false)
 </head>
 <body>
@@ -17,9 +18,9 @@
         <header>
             @Html.Partial("_Header")
         </header>
-        @RenderBody();
+        @RenderBody()
         <footer>
-            <p>&copy; 2019 Edwin Borda edwin.borda@outlook.com<p>
+            <p>&copy;Copyright 2019 Edwin Borda edwin.borda@outlook.com<p>
         </footer>
         <script src="~/Scripts/jquery-3.0.0.js"></script>
         <script src="~/Scripts/bootstrap.min.js"></script>

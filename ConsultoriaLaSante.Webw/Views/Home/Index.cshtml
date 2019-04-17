@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
 }
 
-    <center><h4 class="form-title">FORMULARIO DE INGRESO DE DATOS</h4></center>
+<center><h4 class="form-title">FORMULARIO DE INGRESO DE DATOS</h4></center>
 
 @if (!string.IsNullOrEmpty(ViewBag.Error))
 {
@@ -12,34 +12,41 @@
     </div>
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.Success))
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Success
+    </div>
+}
+
 <div class="card">
     <div class="card-body">
-        @using (Html.BeginForm("CreateForm", "Home", FormMethod.Post))
+        @using (Html.BeginForm("CreateForm", "home", FormMethod.Post))
         {
             <div class="form-group">
-                <div class="col-lg-4">@Html.LabelFor(m => m.billOrder)</div>
-                <div class="col-lg-8">
+                <div class="col-lg-3">@Html.LabelFor(m => m.billOrder)</div>
+                <div class="col-lg-9">
                     @Html.TextBoxFor(m => m.billOrder, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.billOrder)
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-4">@Html.LabelFor(m => m.PurchaseOrder)</div>
-                <div class="col-lg-8">
+                <div class="col-lg-3">@Html.LabelFor(m => m.PurchaseOrder)</div>
+                <div class="col-lg-9">
                     @Html.TextBoxFor(m => m.PurchaseOrder, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.PurchaseOrder)
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-4">@Html.LabelFor(m => m.Nit)</div>
-                <div class="col-lg-8">
+                <div class="col-lg-3">@Html.LabelFor(m => m.Nit)</div>
+                <div class="col-lg-9">
                     @Html.TextBoxFor(m => m.Nit, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Nit)
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-lg-4">@Html.LabelFor(m => m.Name)</div>
-                <div class="col-lg-8">
+                <div class="col-lg-3">@Html.LabelFor(m => m.Name)</div>
+                <div class="col-lg-9">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Name)
                 </div>

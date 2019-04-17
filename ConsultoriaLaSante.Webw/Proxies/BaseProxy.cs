@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using RestSharp;
 using Newtonsoft.Json;
+using ConsultoriaLaSante.Web.Models;
 
 namespace ConsultoriaLaSante.Web.Proxies
 {
     public class BaseProxy<TModel> where TModel:class
     {
         private readonly RestClient _restClient;
-        protected  string baseUrl;
         protected  string apiUrl;
         protected  string oDataUrl;
 
-        public BaseProxy()
+        public BaseProxy(string baseUrl)
         {
             _restClient = new RestClient(baseUrl);
         }
@@ -32,21 +30,25 @@ namespace ConsultoriaLaSante.Web.Proxies
             return JsonConvert.DeserializeObject<IEnumerable<TModel>>(response.Content);
         }
 
-        public IEnumerable<TModel> getOData(Dictionary<string, Dictionary<string, string>> parameters)
+        public IEnumerable<TModel> getOData(Dictionary<string, Dictionary<string, string>> parameters = null)
         {
             RestRequest request = new RestRequest(oDataUrl);
-            if (parameters.FirstOrDefault(it => it.Key == "id").Value.Any())
-                request = new RestRequest($"{oDataUrl}({parameters.FirstOrDefault(it => it.Key == "id").Value["Id"]})");
-            else if (parameters.FirstOrDefault(it => it.Key == "filter").Value.Any())
+            if (parameters != null)
             {
-                var dictionary = parameters.FirstOrDefault(it => it.Key == "filter").Value;
-                var filter = dictionary.Select(x => $"{x.Key} eq {x.Value}");
+                if (parameters.FirstOrDefault(it => it.Key == "id").Value.Any())
+                    request = new RestRequest($"{oDataUrl}({parameters.FirstOrDefault(it => it.Key == "id").Value["Id"]})");
+                else if (parameters.FirstOrDefault(it => it.Key == "filter").Value.Any())
+                {
+                    var dictionary = parameters.FirstOrDefault(it => it.Key == "filter").Value;
+                    var filter = dictionary.Select(x => $"{x.Key} eq {x.Value}");
 
-                request = new RestRequest($"{oDataUrl}?$filter={string.Join("and", filter) }");
+                    request = new RestRequest($"{oDataUrl}?$filter={string.Join("and", filter) }");
+                }
             }
             IRestResponse response = _restClient.Execute(request);
+            var outer = JsonConvert.DeserializeObject<OdataObject<TModel>>(response.Content);
 
-            return JsonConvert.DeserializeObject<IEnumerable<TModel>>(response.Content);
+            return outer.value;
         }
 
         public bool post(TModel model)

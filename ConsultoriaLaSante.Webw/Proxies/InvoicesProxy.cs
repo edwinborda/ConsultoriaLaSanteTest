@@ -9,9 +9,8 @@ namespace ConsultoriaLaSante.Web.Proxies
 {
     public class InvoicesProxy: BaseProxy<InvoiceViewModel>
     {
-        public InvoicesProxy()
+        public InvoicesProxy(string baseUrl) : base(baseUrl)
         {
-            baseUrl = ConfigurationManager.AppSettings["baseUrl"] ?? throw new ArgumentException("No existe llave baseUrl");
             apiUrl = "/api/Invoices";
             oDataUrl = "/odata/InvoiceOdata";
         }

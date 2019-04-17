@@ -1,0 +1,84 @@
+﻿@model IEnumerable<ConsultoriaLaSante.Web.Models.InvoiceViewModel>
+@{
+    ViewBag.Title = "Lista de formularios";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3>Listado de formularios</h3>
+    </div>
+    <div class="card-body">
+        <div class="form-inline">
+            <div class="col-lg-6">
+                <h5>
+                    <a class="btn btn-link" data-toggle="collapse" href="#filters" role="button" aria-expanded="false" aria-controls="filters">V</a>Filtros:</a> 
+                </h5>
+            </div>
+            <div class="col-lg-6 text-left">
+                <button type="button" id="btnMore" class="btn btn-sm btn-success">Agregar mas condiciones</button>
+            </div>
+        </div>
+        <div id="filters" class="collapse">
+            <div id="filter">
+                <div class="col-lg-12 form-inline">
+                    <div class="col-lg-4">
+                        <label>Campos</label>
+                        <select class="form-control" id="field">
+                            <option value="formData">Número de formulario</option>
+                            <option value="billOrder">Número de factura</option>
+                            <option value="PurchaseOrder">Orden de compra</option>
+                            <option value="Nit">Nit Proveedor</option>
+                            <option value="Name">Nombre Proveedor</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Operación</label>
+                        <select class="form-control" id="field" id="operation">
+                            <option value="eq">igual</option>
+                            <option value="gt">Mayor que</option>
+                            <option value="lt">Menor que</option>
+                            <option value="contains">Contiene</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label>Valor</label>
+                        <input type="text" class="form-control" id="value" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <button type="button" id="btnFilter" class="btn btn-sm btn-secondary">Filtrar</button>
+        </div>
+        <div class="space"></div>
+        <table id="invoicesTb" class="table table-responsive-xl" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Número de formulario</th>
+                    <th>Número de factura</th>
+                    <th>Orden de compra</th>
+                    <th>Nit Proveedor</th>
+                    <th>Nombre Proveedor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><a href="#">@item.formData</a></td>
+                        <td>@item.billOrder</td>
+                        <td>@item.PurchaseOrder</td>
+                        <td>@item.Nit</td>
+                        <td>@item.Name</td>
+                        <td><a href="#">Eliminar</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/Scripts/Invoices/List.js"></script>
+}

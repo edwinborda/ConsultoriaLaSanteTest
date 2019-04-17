@@ -2,3 +2,17 @@
     color: cyan;
     text-transform: uppercase;
 }
+
+.form-control {
+    width: 100% !important
+}
+
+.space {
+    margin-bottom: 15px;
+}
+
+#btnFilter {
+    margin-top:20px;
+    position: relative;
+    left: 90%;
+}
