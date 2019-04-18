@@ -57,20 +57,20 @@ namespace ConsultoriaLaSante.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditForm(InvoiceViewModel model)
+        public ActionResult Edit(InvoiceViewModel model)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction("Index");
+                return View(model);
 
             var invoiceProxy = new InvoicesProxy(baseUrl);
             if (!invoiceProxy.put(model.FormNumber, model))
             {
                 ViewBag.Error = "No es posible editar un formulario, por favor revise";
-                return RedirectToAction("Edit", model);
+                return View(model);
             }
             ViewBag.Success = $"Fue editado con éxito";
 
-            return RedirectToAction("Edit", model);
+            return View(model);
         }
 
         [HttpGet]
@@ -92,19 +92,20 @@ namespace ConsultoriaLaSante.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult deleteForm(string formData)
+        public ActionResult deleteForm(string id)
         {
             if (!ModelState.IsValid)
                 return RedirectToAction("Index");
             
             var invoiceProxy = new InvoicesProxy(baseUrl);
-            var list = invoiceProxy.get();
-            if (!invoiceProxy.delete(formData))
+            IEnumerable<InvoiceViewModel> list;
+            if (!invoiceProxy.delete(id))
             {
-                ViewBag.Error = "No es posible editar un formulario, por favor revise";
+                ViewBag.Error = "No es posible eliminar un formulario, por favor revise";
+                list = invoiceProxy.get();
                 return RedirectToAction("List", list);
             }
-            
+            list = invoiceProxy.get();
             return RedirectToAction("List", list);
         }
 

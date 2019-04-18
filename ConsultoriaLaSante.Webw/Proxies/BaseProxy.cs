@@ -41,13 +41,14 @@ namespace ConsultoriaLaSante.Web.Proxies
                 {
                     
                     var filter = parameters.filters.Select(x => {
+                        var val = (x.type == "Int") ? x.value : $"'{x.value}'";
                         if (x.oper == "contains")
-                            return $"contains({x.field},'{x.value}')";
+                            return $"contains({x.field},{val})";
                         else
-                            return $"{x.field} {x.oper} '{x.value}'";
+                            return $"{x.field} {x.oper} {val}"; 
                     });
                     request = new RestRequest($"{oDataUrl}?$filter={string.Join(" and ", filter)}");
-                }
+                }   
             }
             IRestResponse response = _restClient.Execute(request);
             var outer = JsonConvert.DeserializeObject<OdataObject<TModel>>(response.Content);

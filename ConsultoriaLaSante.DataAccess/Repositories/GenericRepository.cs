@@ -24,7 +24,7 @@ namespace ConsultoriaLaSante.DataAccess.Repositories
                 return ctx.Set<TEntity>().Include(include).ToList();
         }
 
-        public TEntity GetEntity(string id)
+        public TEntity GetEntity(dynamic id)
         {
             return ctx.Set<TEntity>().Find(id);
         }
@@ -39,5 +39,14 @@ namespace ConsultoriaLaSante.DataAccess.Repositories
             ctx.Entry(entity).State = System.Data.Entity.EntityState.Modified;
         }
 
+        public IEnumerable<TEntity> SearchFor(Func<TEntity, bool> predicate, string include = null)
+        {
+            var ctxEntity = ctx.Set<TEntity>();
+
+            if (!string.IsNullOrEmpty(include))
+                return ctxEntity.Include(include).Where(predicate);
+            else
+                return ctxEntity.Include(include).Where(predicate);
+        }
     }
 }

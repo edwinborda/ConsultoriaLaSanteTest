@@ -16,12 +16,9 @@ namespace ConsultoriaLaSante.Entities
         }
         internal Invoice()   {}
 
-        public Invoice(string orderNumber, string billNumber, string nit, string nameSupplier, string formNumber = null)
+        public Invoice(string orderNumber, string billNumber, string nit, string nameSupplier)
         {
-            if (string.IsNullOrEmpty(formNumber))
-                FormNumber = Guid.NewGuid();
-            else
-                FormNumber = new Guid(formNumber);
+            FormNumber = Guid.NewGuid();
             PurchaseNumber = orderNumber;
             BillNumber = billNumber;
             OrderState = State.open;
@@ -51,6 +48,14 @@ namespace ConsultoriaLaSante.Entities
             OrderState = status;
         }
 
+        public void UpdateInvoice(string orderNumber, string billNumber, string nit, string name, string formNumber)
+        {
+            FormNumber = new Guid(formNumber);
+            PurchaseNumber = orderNumber;
+            BillNumber = billNumber;
+            Supplier.Nit = nit;
+            Supplier.Name = name;
+        }
     }
 
 }

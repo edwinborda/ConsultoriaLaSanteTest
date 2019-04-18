@@ -12,5 +12,7 @@ namespace ConsultoriaLaSante.Web.Models
         public string oper { get; set; }
 
         public string value { get; set; }
+
+        public string type { get; set; }
     }
 }

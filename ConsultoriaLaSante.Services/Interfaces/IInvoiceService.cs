@@ -17,7 +17,6 @@ namespace ConsultoriaLaSante.Services.Interfaces
 
         bool removeOrder(string formNumber);
 
-        bool createInvoice(InvoiceDto model);
-       
+        bool createInvoice(InvoiceDto model);       
     }
 }

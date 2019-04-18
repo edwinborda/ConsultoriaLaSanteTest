@@ -23,7 +23,7 @@ namespace ConsultoriaLaSante.Services
         }
         public bool removeOrder(string formNumber)
         {
-            var entity = invoiceRepository.GetEntity(formNumber);
+            var entity = invoiceRepository.GetEntity(new Guid(formNumber));
             entity.changeStatus(Invoice.State.delete);
 ;           invoiceRepository.Update(entity);
 
@@ -37,12 +37,13 @@ namespace ConsultoriaLaSante.Services
 
         public InvoiceDto GetInvoice(string formNumber)
         {
-            return toInvoiceDto(invoiceRepository.GetEntity(formNumber));
+            return toInvoiceDto(invoiceRepository.GetEntity(new Guid(formNumber)));
         }
 
         public bool Update(InvoiceDto dto)
         {
-            var entity = toInvoice(dto);
+            var entity = invoiceRepository.SearchFor(p=>p.FormNumber == new Guid(dto.FormNumber), "Supplier").SingleOrDefault();
+            entity.UpdateInvoice(dto.PurchaseOrder, dto.BillNumber, dto.nit, dto.Name, dto.FormNumber);
             invoiceRepository.Update(entity);
 
             return unityOfWork.Save();
@@ -62,8 +63,8 @@ namespace ConsultoriaLaSante.Services
             {
                 FormNumber = invoice.FormNumber.ToString(),
                 BillNumber = invoice.BillNumber,
-                Name = invoice.Supplier.Name,
-                nit = invoice.Supplier.Nit,
+                Name = invoice.Supplier?.Name,
+                nit = invoice.Supplier?.Nit,
                 PurchaseOrder = invoice.PurchaseNumber,
                 OrderState = (int)invoice.OrderState
             };
@@ -71,7 +72,7 @@ namespace ConsultoriaLaSante.Services
 
         private Invoice toInvoice(InvoiceDto model)
         {
-            return new Invoice(model.PurchaseOrder, model.BillNumber, model.nit, model.Name, model.FormNumber);
+            return new Invoice(model.PurchaseOrder, model.BillNumber, model.nit, model.Name);
         }
     }
 }

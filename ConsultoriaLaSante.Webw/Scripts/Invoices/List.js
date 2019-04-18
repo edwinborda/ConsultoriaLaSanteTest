@@ -1,7 +1,25 @@
 ﻿$(document).ready(function () {
-    
+
     $("#btnMore").click(function () {
-        $("#filter").clone().appendTo("#filters");
+        $(".filter").clone().appendTo("#filters");
+
+        if ($(".filter").length > 1) {
+            $("#btnLess").removeAttr("style");
+            $("#btnLess").attr("style", "display:block");
+        }    
+    });
+
+    $("#btnLess").click(function () {
+        var listfilter = $(".filter").toArray();
+        listfilter.pop();
+        if ($(".filter").length === 1) {
+            $("#btnLess").removeAttr("style");
+            $("#btnLess").attr("style", "display:none");
+            return;
+        }
+
+        $("#filters").html(listfilter);
+
     });
 
     $("#btnFilter").click(function () {
@@ -9,9 +27,10 @@
         var filters = $(".form-filter");
         $.each(filters, function () {
             var obj = {
-                field: $(this).find('#field').val(),
+                field: $(this).find('#field').val().split(':')[0],
                 oper: $(this).find('#operator').val(),
-                value: $(this).find('#value').val()
+                value: $(this).find('#value').val(),
+                type: $(this).find('#value').val().split(':')[1]
             };
 
             listObject.push(obj);
@@ -20,7 +39,8 @@
         listObject.push({
             field: 'OrderState',
             oper: 'eq',
-            value: $("#chkSeeDelete").is(':checked') ? 0 : 1
+            value: $("#chkSeeDelete").is(':checked') ? 0 : 1,
+            type: 'Int'
         });
 
         $.ajax({
@@ -37,7 +57,8 @@
         listObject.push({
             field: 'OrderState',
             oper: 'eq',
-            value: $("#chkSeeDelete").is(':checked') ? 0 : 1
+            value: $("#chkSeeDelete").is(':checked') ? 0 : 1,
+            type: 'Int'
         });
 
         $.ajax({
