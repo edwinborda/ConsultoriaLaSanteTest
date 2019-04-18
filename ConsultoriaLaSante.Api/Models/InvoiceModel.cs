@@ -15,12 +15,12 @@ namespace ConsultoriaLaSante.Api.Models
         /// Form Number is created aleatory form
         /// </summary>
         [Key]
-        public string FormData { get; set; }
+        public string FormNumber { get; set; }
         /// <summary>
         /// Biil order number
         /// </summary>
         [Required(ErrorMessage = "The bill number is required")]
-        public string BillOrder { get; set; }
+        public string BillNumber { get; set; }
 
         /// <summary>
         /// Purchase order
@@ -40,5 +40,10 @@ namespace ConsultoriaLaSante.Api.Models
         /// </summary>
         [Required(ErrorMessage ="The supplier's name is required")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Form's state
+        /// </summary>
+        public int OrderState { get; set; }
     }
 }

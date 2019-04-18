@@ -24,28 +24,60 @@ namespace ConsultoriaLaSante.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Edit(string id)
+        {
+            var invoiceProxy = new InvoicesProxy(baseUrl);
+            var model = invoiceProxy.getOData(new OdataModel() { id = id });
+            if (!model.Any())
+            {
+                ViewBag.Error = "No existe el formulario";
+                return RedirectToAction("List");
+            }
+
+            return View(model.FirstOrDefault());
+        }
+
+
         [HttpPost]
-        public ActionResult CreateForm(InvoiceViewModel model)
+        public ActionResult Index(InvoiceViewModel model)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction("Index");
+                return View("Index");
 
             var invoiceProxy = new InvoicesProxy(baseUrl);
             if (!invoiceProxy.post(model))
             {
                 ViewBag.Error = "No es posible crear un formulario, por favor revise";
-                return RedirectToAction("Index");
+                return View("Index");
             }
-            ViewBag.Success = $"Formulario creado con éxito, su radicado es: {model.formData}";
+            ViewBag.Success = $"Formulario creado con éxito, su radicado es: {model.FormNumber}";
 
-            return RedirectToAction("Index");
+            return View("Index");
+        }
+
+        [HttpPost]
+        public ActionResult EditForm(InvoiceViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index");
+
+            var invoiceProxy = new InvoicesProxy(baseUrl);
+            if (!invoiceProxy.put(model.FormNumber, model))
+            {
+                ViewBag.Error = "No es posible editar un formulario, por favor revise";
+                return RedirectToAction("Edit", model);
+            }
+            ViewBag.Success = $"Fue editado con éxito";
+
+            return RedirectToAction("Edit", model);
         }
 
         [HttpGet]
         public ActionResult List()
         {
             var invoiceProxy = new InvoicesProxy(baseUrl);
-            var result = invoiceProxy.getOData();
+            var result = invoiceProxy.get().Where(it => it.OrderState == 1);
 
             return View(result);
         }
@@ -57,6 +89,23 @@ namespace ConsultoriaLaSante.Web.Controllers
             var result = invoiceProxy.getOData(model);
 
             return Json(result);
+        }
+
+        [HttpGet]
+        public ActionResult deleteForm(string formData)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index");
+            
+            var invoiceProxy = new InvoicesProxy(baseUrl);
+            var list = invoiceProxy.get();
+            if (!invoiceProxy.delete(formData))
+            {
+                ViewBag.Error = "No es posible editar un formulario, por favor revise";
+                return RedirectToAction("List", list);
+            }
+            
+            return RedirectToAction("List", list);
         }
 
     }

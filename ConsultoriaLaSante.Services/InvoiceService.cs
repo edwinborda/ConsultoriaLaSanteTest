@@ -64,13 +64,14 @@ namespace ConsultoriaLaSante.Services
                 BillNumber = invoice.BillNumber,
                 Name = invoice.Supplier.Name,
                 nit = invoice.Supplier.Nit,
-                PurchaseNumber = invoice.PurchaseNumber
+                PurchaseOrder = invoice.PurchaseNumber,
+                OrderState = (int)invoice.OrderState
             };
         }
 
         private Invoice toInvoice(InvoiceDto model)
         {
-            return new Invoice(model.PurchaseNumber, model.BillNumber, model.nit, model.Name, model.FormNumber);
+            return new Invoice(model.PurchaseOrder, model.BillNumber, model.nit, model.Name, model.FormNumber);
         }
     }
 }

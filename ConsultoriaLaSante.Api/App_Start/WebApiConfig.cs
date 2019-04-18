@@ -18,6 +18,7 @@ namespace ConsultoriaLaSante.Api.App_Start
         {
             config.MapHttpAttributeRoutes();
             var cors = new EnableCorsAttribute("*", "*", "*");
+            
             config.EnableCors(cors);
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -34,6 +35,7 @@ namespace ConsultoriaLaSante.Api.App_Start
             builder.Namespace = "Odata";
             builder.ContainerName = "ConsultoriaLaSanteContainer";
             builder.EntitySet<InvoiceModel>("InvoiceOData");
+
             var edmModel = builder.GetEdmModel();
             return edmModel;
         }

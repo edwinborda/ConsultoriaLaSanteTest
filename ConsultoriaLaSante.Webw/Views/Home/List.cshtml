@@ -3,6 +3,13 @@
     ViewBag.Title = "Lista de formularios";
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
+
 <div class="card">
     <div class="card-header">
         <h3>Listado de formularios</h3>
@@ -11,11 +18,14 @@
         <div class="form-inline">
             <div class="col-lg-6">
                 <h5>
-                    <a class="btn btn-link" data-toggle="collapse" href="#filters" role="button" aria-expanded="false" aria-controls="filters">V</a>Filtros:</a> 
+                    <a class="btn btn-link" data-toggle="collapse" href="#filters" role="button" aria-expanded="false" aria-controls="filters">Filtros:</a>
                 </h5>
             </div>
-            <div class="col-lg-6 text-left">
-                <button type="button" id="btnMore" class="btn btn-sm btn-success">Agregar mas condiciones</button>
+            <div class="col-lg-3 text-left">
+                <button type="button" id="btnMore" class="btn btn-sm btn-outline-primary">Agregar mas condiciones</button>
+            </div>
+            <div class="col-lg-3 text-left">
+                <input type="checkbox" id="chkSeeDelete" />Ver formularios eliminados
             </div>
         </div>
         <div id="filters" class="collapse">
@@ -24,8 +34,8 @@
                     <div class="col-lg-4">
                         <label>Campos</label>
                         <select class="form-control" id="field">
-                            <option value="formData">Número de formulario</option>
-                            <option value="billOrder">Número de factura</option>
+                            <option value="FormData">Número de formulario</option>
+                            <option value="BillOrder">Número de factura</option>
                             <option value="PurchaseOrder">Orden de compra</option>
                             <option value="Nit">Nit Proveedor</option>
                             <option value="Name">Nombre Proveedor</option>
@@ -55,7 +65,7 @@
         <table id="invoicesTb" class="table table-responsive-xl" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Número de formulario</th>
+                    <th>Número de Radicado</th>
                     <th>Número de factura</th>
                     <th>Orden de compra</th>
                     <th>Nit Proveedor</th>
@@ -67,12 +77,12 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td><a href="#">@item.formData</a></td>
-                        <td>@item.billOrder</td>
+                        <td><a href="/home/Edit/@item.FormNumber">@item.FormNumber</a></td>
+                        <td>@item.BillNumber</td>
                         <td>@item.PurchaseOrder</td>
                         <td>@item.Nit</td>
                         <td>@item.Name</td>
-                        <td><a href="#">Eliminar</a></td>
+                        <td><a href="/home/deleteForm/@item.FormNumber">Eliminar</a></td>
                     </tr>
                 }
             </tbody>

@@ -16,3 +16,7 @@
     position: relative;
     left: 90%;
 }
+
+.form-inline {
+    margin-bottom: 10px !important;
+}

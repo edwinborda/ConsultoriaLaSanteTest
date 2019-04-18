@@ -2,6 +2,7 @@
 using ConsultoriaLaSante.Dtos;
 using ConsultoriaLaSante.Services.Interfaces;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Description;
 
@@ -36,7 +37,7 @@ namespace ConsultoriaLaSante.Api.Controllers
         [HttpGet]
         public IHttpActionResult get()
         {
-            return Ok(invoiceService.getAll());
+            return Ok(invoiceService.getAll().Select(toInvoiceModel));
         }
 
         /// <summary>
@@ -57,8 +58,8 @@ namespace ConsultoriaLaSante.Api.Controllers
 
             var dto = new InvoiceDto()
             {
-                PurchaseNumber = model.PurchaseOrder,
-                BillNumber = model.BillOrder,
+                PurchaseOrder = model.PurchaseOrder,
+                BillNumber = model.BillNumber,
                 nit = model.Nit,
                 Name = model.Name
             };
@@ -90,9 +91,9 @@ namespace ConsultoriaLaSante.Api.Controllers
 
             var dto = new InvoiceDto()
             {
-                FormNumber =  id,
-                PurchaseNumber = model.PurchaseOrder,
-                BillNumber = model.BillOrder,
+                FormNumber = id,
+                PurchaseOrder = model.PurchaseOrder,
+                BillNumber = model.BillNumber,
                 nit = model.Nit,
                 Name = model.Name
             };
@@ -128,5 +129,19 @@ namespace ConsultoriaLaSante.Api.Controllers
             return Ok();
         }
 
+        private InvoiceModel toInvoiceModel(InvoiceDto dto)
+        {
+            return new InvoiceModel
+            {
+                FormNumber = dto.FormNumber,
+                BillNumber = dto.BillNumber,
+                PurchaseOrder = dto.PurchaseOrder,
+                Name = dto.Name,
+                Nit = dto.nit,
+                OrderState = dto.OrderState
+            };
+
+
+        }
     }
 }

@@ -8,12 +8,12 @@ namespace ConsultoriaLaSante.Web.Models
 {
     public class InvoiceViewModel
     {
-        
-        public string formData { get; set; }
+        [Display(Name = "Número de radicado")]
+        public string FormNumber { get; set; }
 
         [Display(Name="Número de factura")]
         [Required(ErrorMessage = "Número de factura es obligatorio")]
-        public string billOrder { get; set; }
+        public string BillNumber { get; set; }
 
         [Display(Name = "Orden de compra")]
         [Required(ErrorMessage = "Orden de compra es obligatorio")]
@@ -26,6 +26,8 @@ namespace ConsultoriaLaSante.Web.Models
         [Display(Name = "Nombre del proveedor")]
         [Required(ErrorMessage = "El Nombre del proveedor es obligatorio")]
         public string Name { get; set; }
+
+        public int OrderState { get; set; }
 
 
     }

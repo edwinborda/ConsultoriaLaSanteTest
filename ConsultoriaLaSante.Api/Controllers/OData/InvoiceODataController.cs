@@ -35,13 +35,19 @@ namespace ConsultoriaLaSante.Api.Controllers.OData
         /// get queryable invoices
         /// </summary>
         /// <returns></returns>
-
+        
         [EnableQuery]
         [ResponseType(typeof(InvoiceModel))]
         [HttpGet]
-        public IQueryable<InvoiceModel> get()
+        public IQueryable<InvoiceModel> get([FromODataUri] string Key = null)
         {
             var list = invoiceService.getAll().Select(toInvoiceModel);
+            if (!string.IsNullOrEmpty(Key))
+            {
+                var result = invoiceService.getAll().Where(p => p.FormNumber == Key).Select(toInvoiceModel).AsQueryable();
+                return result;
+            }
+            
             return list.AsQueryable();
         }
 
@@ -49,11 +55,12 @@ namespace ConsultoriaLaSante.Api.Controllers.OData
         {
             return new InvoiceModel
             {
-                FormData = dto.FormNumber,
-                BillOrder = dto.BillNumber,
-                PurchaseOrder = dto.PurchaseNumber,
+                FormNumber = dto.FormNumber,
+                BillNumber = dto.BillNumber,
+                PurchaseOrder = dto.PurchaseOrder,
                 Name = dto.Name,
-                Nit = dto.nit
+                Nit = dto.nit,
+                OrderState = dto.OrderState
             };
         }
     }

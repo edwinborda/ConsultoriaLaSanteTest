@@ -17,11 +17,11 @@ namespace ConsultoriaLaSante.Web.Proxies
             _restClient = new RestClient(baseUrl);
         }
 
-        public IEnumerable<TModel> get(string path = null)
+        public IEnumerable<TModel> get(string id = null)
         {
             RestRequest request;
-            if (!string.IsNullOrEmpty(path))
-                request = new RestRequest($"{apiUrl}/{path}");
+            if (!string.IsNullOrEmpty(id))
+                request = new RestRequest($"{apiUrl}/{id}");
             else
                 request = new RestRequest(apiUrl);
 
@@ -36,7 +36,7 @@ namespace ConsultoriaLaSante.Web.Proxies
             if (parameters != null)
             {
                 if (!string.IsNullOrEmpty(parameters.id))
-                    request = new RestRequest($"{oDataUrl}({parameters.id})");
+                    request = new RestRequest($"{oDataUrl}('{parameters.id}')");
                 else if (parameters.filters.Any())
                 {
                     
@@ -44,7 +44,7 @@ namespace ConsultoriaLaSante.Web.Proxies
                         if (x.oper == "contains")
                             return $"contains({x.field},'{x.value}')";
                         else
-                            return $"{x.field} {x.oper} {x.value}";
+                            return $"{x.field} {x.oper} '{x.value}'";
                     });
                     request = new RestRequest($"{oDataUrl}?$filter={string.Join(" and ", filter)}");
                 }

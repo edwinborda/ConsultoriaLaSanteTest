@@ -14,7 +14,7 @@ namespace ConsultoriaLaSante.Dtos
     {
         public string FormNumber { get;  set; }
 
-        public string PurchaseNumber { get; set; }
+        public string PurchaseOrder { get; set; }
 
         public string BillNumber { get; set; }
 
